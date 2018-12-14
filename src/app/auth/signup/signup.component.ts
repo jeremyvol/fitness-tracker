@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./signup.component.sass']
 })
 export class SignupComponent implements OnInit {
-  maxDate;
+  maxDate: Date;
 
   constructor(private authService: AuthService) {}
 

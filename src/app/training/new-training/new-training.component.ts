@@ -22,7 +22,6 @@ export class NewTrainingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.availableExercises = this.trainingService.getAvailableExercises();
     this.exercises = this.db
       .collection('availableExercises')
       .snapshotChanges()
@@ -31,9 +30,7 @@ export class NewTrainingComponent implements OnInit {
           return docArray.map(doc => {
             return {
               id: doc.payload.doc.id,
-              name: doc.payload.doc.data().name,
-              duration: doc.payload.doc.data().duration,
-              calories: doc.payload.doc.data().calories
+              ...doc.payload.doc.data()
             };
           });
         })

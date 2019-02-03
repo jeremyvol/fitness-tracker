@@ -1,4 +1,3 @@
-// import { Action } from '@ngrx/store';
 import {
   TrainingActions,
   SET_AVAILABLE_TRAININGS,
@@ -8,6 +7,7 @@ import {
 } from './training.actions';
 import { Exercise } from './exercise.model';
 import * as fromRoot from '../app.reducer';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface TrainingState {
   availableExercises: Exercise[];
@@ -52,9 +52,19 @@ export function trainingReducer(state = initalState, action: TrainingActions) {
   }
 }
 
-// export const getIsAuth = (state: State) => state.isAuthenticated;
-export const getAvailableExercises = (state: TrainingState) =>
-  state.availableExercises;
-export const getFinishedExercises = (state: TrainingState) =>
-  state.finishedExercises;
-export const getActiveTraining = (state: TrainingState) => state.activeTraining;
+export const getTrainingState = createFeatureSelector<TrainingState>(
+  'training'
+);
+
+export const getAvailableExercises = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.availableExercises
+);
+export const getFinishedExercises = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.finishedExercises
+);
+export const getActiveTraining = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.activeTraining
+);

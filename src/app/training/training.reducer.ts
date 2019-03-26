@@ -15,6 +15,7 @@ export interface TrainingState {
   activeTraining: Exercise;
 }
 
+// Lazy loading
 export interface State extends fromRoot.State {
   training: TrainingState;
 }
@@ -40,12 +41,14 @@ export function trainingReducer(state = initalState, action: TrainingActions) {
     case START_TRAINING:
       return {
         ...state,
-        activeTraining: action.payload
+        activeTraining: {
+          ...state.availableExercises.find(ex => ex.id === action.payload)
+        }
       };
     case STOP_TRAINING:
       return {
         ...state,
-        activeTraining: action.payload
+        activeTraining: null
       };
     default:
       return state;
@@ -67,4 +70,9 @@ export const getFinishedExercises = createSelector(
 export const getActiveTraining = createSelector(
   getTrainingState,
   (state: TrainingState) => state.activeTraining
+);
+
+export const getIsTraining = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.activeTraining != null
 );
